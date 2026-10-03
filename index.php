@@ -8,10 +8,10 @@ $ADMIN_USERNAME = 'admin';
 $ADMIN_PASSWORD = 'admin123';
 
 // Database configuration - PostgreSQL (Supabase Connection Pooler - Transaction Mode)
-// Using IPv4 pooler for Render compatibility
-$db_host = 'aws-0-us-east-1.pooler.supabase.com';
+// Using IPv4 pooler with project-specific hostname for SNI
+$db_host = 'mljxejdqoxraqimxjhnn.pooler.supabase.com';  // Project-specific pooler
 $db_name = 'postgres';
-$db_user = 'postgres';  // Just 'postgres' for pooler
+$db_user = 'postgres.mljxejdqoxraqimxjhnn';  // Full user format for pooler
 $db_pass = 'Palette1853141!';
 $db_port = 6543;  // Pooler port (NOT 5432)
 
@@ -65,13 +65,9 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 // Connect to database - PostgreSQL PDO with Supabase pooler
 try {
-    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;options='--search_path=public --application_name=mljxejdqoxraqimxjhnn'";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_TIMEOUT => 5,
-        PDO::ATTR_PERSISTENT => false
-    ];
-    $conn = new PDO($dsn, $db_user, $db_pass, $options);
+    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";
+    $conn = new PDO($dsn, $db_user, $db_pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }

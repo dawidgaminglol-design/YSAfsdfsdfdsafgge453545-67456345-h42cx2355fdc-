@@ -7,13 +7,13 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Database configuration - PostgreSQL (Supabase Connection Pooler - Transaction Mode)
-// Using IPv4 pooler with project-specific hostname for SNI
-$db_host = 'mljxejdqoxraqimxjhnn.pooler.supabase.com';  // Project-specific pooler
-$db_name = 'postgres';
-$db_user = 'postgres.mljxejdqoxraqimxjhnn';  // Full user format for pooler
-$db_pass = 'Palette1853141!';
-$db_port = 6543;  // Pooler port (NOT 5432)
+// Database configuration - PostgreSQL (Render Internal)
+// Using Render PostgreSQL for perfect compatibility
+$db_host = 'dpg-db0k1ifavr4c7382re2g-a';
+$db_name = 'luckyware';
+$db_user = 'luckyware_user';
+$db_pass = 'SR5BqBJhHKOlYEjvn5ia71HFWRJtTIZ4';
+$db_port = 5432;
 
 try {
     $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";

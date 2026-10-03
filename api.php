@@ -13,9 +13,10 @@ $db_user = 'postgres';  // Just 'postgres' for pooler
 $db_pass = 'Palette1853141!';
 $db_port = 6543;  // Pooler port (NOT 5432)
 
-// Connect to database - PostgreSQL PDO
+// Connect to database - PostgreSQL PDO with Supabase pooler
 try {
-    $conn = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
+    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;options='--search_path=public --application_name=mljxejdqoxraqimxjhnn'";
+    $conn = new PDO($dsn, $db_user, $db_pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("db_error");

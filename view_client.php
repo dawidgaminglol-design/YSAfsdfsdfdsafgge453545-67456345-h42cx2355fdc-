@@ -16,7 +16,8 @@ $db_pass = 'Palette1853141!';
 $db_port = 6543;  // Pooler port (NOT 5432)
 
 try {
-    $pdo = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
+    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;options='--search_path=public --application_name=mljxejdqoxraqimxjhnn'";
+    $pdo = new PDO($dsn, $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Database connection failed!");

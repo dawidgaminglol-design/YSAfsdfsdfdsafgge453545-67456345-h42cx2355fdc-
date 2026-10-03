@@ -13,7 +13,8 @@ $db_port = 6543;  // Pooler port (NOT 5432)
 function getDB() {
     global $db_host, $db_name, $db_user, $db_pass, $db_port;
     try {
-        $pdo = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
+        $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;options='--search_path=public --application_name=mljxejdqoxraqimxjhnn'";
+        $pdo = new PDO($dsn, $db_user, $db_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch(PDOException $e) {

@@ -63,9 +63,9 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Connect to database - PostgreSQL PDO
+// Connect to database - PostgreSQL PDO with Supabase pooler
 try {
-    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";
+    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;options='--search_path=public --application_name=mljxejdqoxraqimxjhnn'";
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_TIMEOUT => 5,

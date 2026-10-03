@@ -8,14 +8,14 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Database configuration - PostgreSQL (Neon)
-$db_host = getenv('PGHOST');
-$db_name = getenv('PGDATABASE');
-$db_user = getenv('PGUSER');
-$db_pass = getenv('PGPASSWORD');
+// Database configuration - PostgreSQL (Render Internal)
+$db_host = 'dpg-db0k1ifavr4c7382re2g-a';
+$db_name = 'luckyware';
+$db_user = 'luckyware_user';
+$db_pass = 'SR5BqBJhHKOlYEjvn5ia71HFWRJtTIZ4';
 
 try {
-    $pdo = new PDO("pgsql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo = new PDO("pgsql:host=$db_host;port=5432;dbname=$db_name", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     http_response_code(500);

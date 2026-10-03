@@ -14,13 +14,13 @@ if(empty($client_id)) {
 }
 
 // Get client info for display
-$db_host = getenv('PGHOST');
-$db_name = getenv('PGDATABASE');
-$db_user = getenv('PGUSER');
-$db_pass = getenv('PGPASSWORD');
+$db_host = 'dpg-db0k1ifavr4c7382re2g-a';
+$db_name = 'luckyware';
+$db_user = 'luckyware_user';
+$db_pass = 'SR5BqBJhHKOlYEjvn5ia71HFWRJtTIZ4';
 
 try {
-    $pdo = new PDO("pgsql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo = new PDO("pgsql:host=$db_host;port=5432;dbname=$db_name", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     $stmt = $pdo->prepare("SELECT * FROM clients WHERE id = ?");

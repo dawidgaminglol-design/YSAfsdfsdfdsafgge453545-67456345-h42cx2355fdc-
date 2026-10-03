@@ -11,7 +11,7 @@ $ADMIN_PASSWORD = 'admin123';
 // Using IPv4 pooler for Render compatibility
 $db_host = 'aws-0-us-east-1.pooler.supabase.com';
 $db_name = 'postgres';
-$db_user = 'postgres.mljxejdqoxraqimxjhnn';
+$db_user = 'postgres';  // Just 'postgres' for pooler
 $db_pass = 'Palette1853141!';
 $db_port = 6543;  // Pooler port (NOT 5432)
 

@@ -72,11 +72,15 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .log-warning { color: #ffd43b; }
         .log-error { color: #ff6b6b; }
         .log-command_executed { color: #51cf66; }
+        .btn { background: #3282b8; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="index.php" class="back-btn">← Back to Dashboard</a>
+        <div>
+            <a href="index.php" class="back-btn">← Back to Dashboard</a>
+            <a href="live_view.php?client_id=<?= $client['id'] ?>" class="back-btn" style="background: #51cf66; margin-left: 10px;">🎥 Live View</a>
+        </div>
         <h1>Client Details: <?= htmlspecialchars($client['computer_name']) ?></h1>
     </div>
     
@@ -138,7 +142,11 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td class="status-<?= $cmd['status'] ?>"><?= strtoupper($cmd['status']) ?></td>
                     <td>
                         <?php if(!empty($cmd['result'])): ?>
-                            <div class="result-box"><?= htmlspecialchars($cmd['result']) ?></div>
+                            <?php if(strpos($cmd['result'], 'SCREENSHOT:') === 0): ?>
+                                <a href="view_screenshot.php?data=<?= urlencode($cmd['result']) ?>" target="_blank" class="btn" style="background: #51cf66;">📸 View Screenshot</a>
+                            <?php else: ?>
+                                <div class="result-box"><?= htmlspecialchars($cmd['result']) ?></div>
+                            <?php endif; ?>
                         <?php else: ?>
                             <em>No result yet</em>
                         <?php endif; ?>

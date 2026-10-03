@@ -1,0 +1,9 @@
+*.txt
+*.md
+README*
+SETUP*
+BUILD*
+test_*.php
+check_logs.php
+.git
+.gitignore

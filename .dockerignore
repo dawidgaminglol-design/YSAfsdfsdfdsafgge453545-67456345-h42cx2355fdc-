@@ -1,0 +1,9 @@
+# Don't include these in Docker image
+*.txt
+*.md
+*.sql
+database_postgresql.sql
+DEPLOY_CHECKLIST.txt
+NEON_SETUP_GUIDE.txt
+DEPLOY_INSTRUCTIONS.txt
+QUICK_FIX.txt
